@@ -33,7 +33,7 @@ from srctools.filesys import RawFileSystem
 
 GAMES = [
     ('P2CE', 'Portal 2: Community Edition'),
-    ('MOMENTUM', 'Momentum Mod'),
+    ('MOMENTUM', 'Momentum Mod')
 ]  # type: List[Tuple[str, str]]
 
 GAME_ORDER = [game for game, desc in GAMES]
@@ -48,8 +48,8 @@ FEATURES: Dict[str, Set[str]] = {
 }
 
 ALL_FEATURES = {
-    tag.upper() 
-    for t in FEATURES.values() 
+    tag.upper()
+    for t in FEATURES.values()
     for tag in t
 }
 
@@ -110,9 +110,25 @@ def _polyfill_ext_valuetypes(fgd: FGD) -> None:
                 kv.type = decay.get(kv.type, kv.type)
 
 
+@_polyfill()
+def _polyfill_ext_valuetypes(fgd: FGD) -> None:
+    # Convert extension types to their real versions.
+    decay = {
+        ValueTypes.EXT_STR_TEXTURE: ValueTypes.STRING,
+        ValueTypes.EXT_ANGLE_PITCH: ValueTypes.FLOAT,
+        ValueTypes.EXT_ANGLES_LOCAL: ValueTypes.ANGLES,
+        ValueTypes.EXT_VEC_DIRECTION: ValueTypes.VEC,
+        ValueTypes.EXT_VEC_LOCAL: ValueTypes.VEC,
+    }
+    for ent in fgd.entities.values():
+        for tag_map in ent.keyvalues.values():
+            for kv in tag_map.values():
+                kv.type = decay.get(kv.type, kv.type)
+
+
 def format_all_tags() -> str:
     """Append a formatted description of all allowed tags to a message."""
-    
+
     return (
         '- Games: {}\n'
         '- SINCE_<game>\n'
@@ -135,7 +151,7 @@ def expand_tags(tags: FrozenSet[str]) -> FrozenSet[str]:
     for tag in tags:
         try:
             exp_tags.update(FEATURES[tag.upper()])
-        except KeyError: 
+        except KeyError:
             pass
         try:
             pos = GAME_ORDER.index(tag.upper())
@@ -143,11 +159,11 @@ def expand_tags(tags: FrozenSet[str]) -> FrozenSet[str]:
             pass
         else:
             exp_tags.update(
-                'SINCE_' + tag 
+                'SINCE_' + tag
                 for tag in GAME_ORDER[:pos+1]
             )
             exp_tags.update(
-                'UNTIL_' + tag 
+                'UNTIL_' + tag
                 for tag in GAME_ORDER[pos+1:]
             )
     return frozenset(exp_tags)
@@ -184,40 +200,40 @@ def load_database(dbase: Path, extra_loc: Path=None, fgd_vis: bool=False) -> Tup
     # Classname -> filename
     ent_source: Dict[str, str] = {}
 
-    with RawFileSystem(str(dbase)) as fsys:
-        for file in dbase.rglob("*.fgd"):
-            # Use a temp FGD class, to allow us to verify no overwrites.
-            file_fgd = FGD()
-            rel_loc = str(file.relative_to(dbase))
-            file_fgd.parse_file(
-                fsys,
-                fsys[rel_loc],
-                eval_bases=False,
-                encoding='utf8',
-            )
-            for clsname, ent in file_fgd.entities.items():
-                if clsname in fgd.entities:
-                    raise ValueError(
-                        f'Duplicate "{clsname}" class '
-                        f'in {rel_loc} and {ent_source[clsname]}!'
-                    )
-                fgd.entities[clsname] = ent
-                ent_source[clsname] = rel_loc
+    fsys = RawFileSystem(str(dbase))
+    for file in dbase.rglob("*.fgd"):
+        # Use a temp FGD class, to allow us to verify no overwrites.
+        file_fgd = FGD()
+        rel_loc = str(file.relative_to(dbase))
+        file_fgd.parse_file(
+            fsys,
+            fsys[rel_loc],
+            eval_bases=False,
+            encoding='utf8',
+        )
+        for clsname, ent in file_fgd.entities.items():
+            if clsname in fgd.entities:
+                raise ValueError(
+                    f'Duplicate "{clsname}" class '
+                    f'in {rel_loc} and {ent_source[clsname]}!'
+                )
+            fgd.entities[clsname] = ent
+            ent_source[clsname] = rel_loc
 
-            if fgd_vis:
-                for parent, visgroup in file_fgd.auto_visgroups.items():
-                    try:
-                        existing_group = fgd.auto_visgroups[parent]
-                    except KeyError:
-                        fgd.auto_visgroups[parent] = visgroup
-                    else:  # Need to merge
-                        existing_group.ents.update(visgroup.ents)
+        if fgd_vis:
+            for parent, visgroup in file_fgd.auto_visgroups.items():
+                try:
+                    existing_group = fgd.auto_visgroups[parent]
+                except KeyError:
+                    fgd.auto_visgroups[parent] = visgroup
+                else:  # Need to merge
+                    existing_group.ents.update(visgroup.ents)
 
-            fgd.mat_exclusions.update(file_fgd.mat_exclusions)
-            for tags, mat_list in file_fgd.tagged_mat_exclusions.items():
-                fgd.tagged_mat_exclusions[tags] |= mat_list
+        fgd.mat_exclusions.update(file_fgd.mat_exclusions)
+        for tags, mat_list in file_fgd.tagged_mat_exclusions.items():
+            fgd.tagged_mat_exclusions[tags] |= mat_list
 
-            print('.', end='', flush=True)
+        print('.', end='', flush=True)
 
     load_visgroup_conf(fgd, dbase)
 
@@ -225,22 +241,22 @@ def load_database(dbase: Path, extra_loc: Path=None, fgd_vis: bool=False) -> Tup
         print('\nLoading extra file:')
         if extra_loc.is_file():
             # One file.
-            with RawFileSystem(str(extra_loc.parent)) as fsys:
-                fgd.parse_file(
-                    fsys,
-                    fsys[extra_loc.name],
-                    eval_bases=False,
-                )
+            fsys = RawFileSystem(str(extra_loc.parent))
+            fgd.parse_file(
+                fsys,
+                fsys[extra_loc.name],
+                eval_bases=False,
+            )
         else:
             print('\nLoading extra files:')
-            with RawFileSystem(str(extra_loc)) as fsys:
-                for file in extra_loc.rglob("*.fgd"):
-                    fgd.parse_file(
-                        fsys,
-                        fsys[str(file.relative_to(extra_loc))],
-                        eval_bases=False,
-                    )
-                    print('.', end='', flush=True)
+            fsys = RawFileSystem(str(extra_loc))
+            for file in extra_loc.rglob("*.fgd"):
+                fgd.parse_file(
+                    fsys,
+                    fsys[str(file.relative_to(extra_loc))],
+                    eval_bases=False,
+                )
+                print('.', end='', flush=True)
     print()
 
     fgd.apply_bases()
@@ -650,7 +666,7 @@ def action_export(
     engine_mode: bool,
 ) -> None:
     """Create an FGD file using the given tags."""
-    
+
     if engine_mode:
         tags = frozenset({'ENGINE'})
     else:
@@ -1088,9 +1104,9 @@ def main(args: List[str]=None):
             result.tags = ['ENGINE']
         elif not result.tags:
             parser.error("At least one tag must be specified!")
-            
+
         tags = validate_tags(result.tags)
-        
+
         for tag in tags:
             if tag not in ALL_TAGS:
                 parser.error(

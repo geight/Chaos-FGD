@@ -21,7 +21,7 @@
 	innernearparticle(particlesystem) : "Inner near system" : "" : "Name of the inner near particle system. If not set, this will be automatically selected from the precipitation type keyvalue."
 	innerfarparticle(particlesystem) : "Inner far system" : "" : "Name of the inner far particle system. If not set, this will be automatically selected from the precipitation type keyvalue."
 	outerparticle(particlesystem) : "Outer system" : "" : "Name of the outer particle system. If not set, this will be automatically selected from the precipitation type keyvalue."
-
+	
 	input Alpha(integer) : "Changes the density of the rain, " +
 	"and may add additional particle effects like fog or leaves. " +
 	"Accepts inputs from -1 to 255."

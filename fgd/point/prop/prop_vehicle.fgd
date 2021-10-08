@@ -1,15 +1,11 @@
-@PointClass base(BaseVehicle, SetModel)
-	appliesto(+USE_VEHICLES)
-	studioprop() 
-= prop_vehicle: "Studiomodel vehicle that can be driven via inputs."
+
+@PointClass base(BaseVehicle, SetModel) 
+	appliesto(+USE_VEHICLES) 
+	autovis(Vehicles, Generic Vehicles)
+	studioprop() = prop_vehicle: "Vehicle that can be driven via inputs."
 	[
 	spawnflags(flags) : "spawnflags" =
 		[
 		1: "Always Think (Run physics every frame)" : 0
 		]
-
-
-	// Inputs
-	input Steer(float) : "Steer the vehicle +/-1"
-	input Throttle(float) : "Throttle +/-1"
 	]

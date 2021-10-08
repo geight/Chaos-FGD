@@ -5,16 +5,18 @@
 	[
 	classname(string) : "Classname" : : "The class of the entity, and is changed."
 	origin(origin) : "Position" : "0 0 0"
-	angles(angle) : "Pitch Yaw Roll (X Y Z)" : "0 0 0"
+    angles(angle) : "Pitch Yaw Roll (X Y Z)" : "0 0 0"
 
 	targetname(target_source) : "Name"
 	hammerid(integer) : "Hammer ID"
-	target(target_destination) : "Target" 
+	// Defined here, but don't include - it's treated as 
+	// many different types.
+	// target(target_destination) : "Target" 
 	spawnflags(flags) = []
 
 
-	vscripts[VSCRIPT](scriptlist) : "Entity Scripts"
-	thinkfunction[VSCRIPT](string) : "Script think function"
+	vscripts(scriptlist) : "Entity Scripts"
+	thinkfunction(string) : "Script think function"
 	nextthink(integer) : "Next Think"
 
 	globalname(string) : "Global Entity Name"
@@ -154,6 +156,9 @@
 
 	input FireRandomUser(void) : "Fires OnUser1, OnUser2, OnUser3, or OnUser4 with a 25% chance of each."
 	input PassRandomUser(string) : "Fires OutUser1, OutUser2, OutUser3, or OutUser4 with a 25% chance of each. The parameter is passed along unchanged."
+	
+	input KillIfNotVisible(void) : "Removes this entity if it is not in a player's viewcone."
+	input KillWhenNotVisible(void) : "Removes this entity when it is not in a player's viewcone. You can pass a time for when this should start."
 	
 	input FireOutput(string) : "Fires the named output on this entity. Format: '<output name>:<activator>:<caller>:<parameter>:<delay>' (OnDeath:hl3cardgame:gaben). Everything beyond the output name is optional."
 	input RemoveOutput(string) : "Removes all instances of the named output on this entity. Wildcards are supported, meaning you could just pass '*' to wipe all outputs from this entity."

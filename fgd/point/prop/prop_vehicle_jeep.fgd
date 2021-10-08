@@ -1,20 +1,26 @@
 @PointClass base(BaseDriveableVehicle) 
 	appliesto(+HL2_ENTITIES, +USE_VEHICLES)
-	studioprop()
-= prop_vehicle_jeep: "Driveable studiomodel jeep. In HL2 it's the Scout Car, in EP2 it's the Scout Car/Jalopy."
+	studioprop() 
+	autovis(Vehicles, Jeep)
+= prop_vehicle_jeep: "Driveable jeep. In Chaos Source it's the Jalopy." // Chaos uses the Ep2 car
 	[
-	model(studio) : "World model" : "models/jalopy.mdl"
+	vehiclescript(string) : "Vehicle Script File" : "scripts/vehicles/jalopy.txt"
 
-	cargovisible(boolean) : "Hopper Visible" : "0" : "Is the striderbuster cargo hopper visible?"
+	model(studio) : "World Model" : "models/vehicle.mdl"
+
+	cargovisible(boolean) : "Hopper Visible" : "0" : "Is the Magnusson cargo hopper visible?"
 
 	spawnflags(flags) : "spawnflags" =
 		[
 		1: "HUD Locator Precache" : 0
 		]
 
-	NoHazardLights(boolean) : "No Hazard Lights" : 0 : "Stops the jalopy's hazard lights from turning on and flashing when the player exits the vehicle."
+	EnableGun(boolean) : "Has Gun" : 0 : "Whether the jeep's tau cannon is enabled or disabled. Doesn't work correctly with the jalopy model."
 
-	// Mapbase re-adds these for the episodic jeep, so if any it's present.
+	// HL2 Jeep inputs
+	input StartRemoveTauCannon(void) : "Start the tau removal sequence."
+	input FinishRemoveTauCannon(void) : "Finish the tau removal sequence."
+
 	input DisablePhysGun(void) : "Disable physgun interactions with the jeep."
 	input EnablePhysGun(void) : "Enable physgun interactions with the jeep (default)."
 
@@ -27,12 +33,9 @@
 	input DisableRadar(void) : "Turn off the Jalopy radar"
 	input EnableRadarDetectEnemies(void) : "Allow the Jalopy radar to detect Striders and Hunters."
 	input AddBusterToCargo(void) : "Put a striderbuster in the cargo trigger"
-	input SetCargoHopperVisibility(boolean) : "Set the strider buster hopper thingy to be visible, or invisible."
+	input SetCargoHopperVisibility(boolean) : "Set the Magnusson cargo hopper to be visible, or invisible."
 	input CreateLinkController(void) : "Automatically builds and attaches a link controller to the car, which cuts the node connections under the car while the car is standing still."
-	input DestroyLinkController(void) : "Destroys the link controller created by CreateLinkController."	
-	input EnableHazardLights( void ) : "Enables the jalopy's hazard lights."
-	input DisableHazardLights( void ) : "Disables the jalopy's hazard lights."
-
+	input DestroyLinkController(void) : "Destroys the link controller created by CreateLinkController."
 
 	// Outputs
 	output OnCompanionEnteredVehicle(void) : "Companion has entered the vehicle."

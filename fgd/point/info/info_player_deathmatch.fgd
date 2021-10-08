@@ -1,5 +1,6 @@
-@PointClass base(BaseEntityPoint, PlayerClass)
-	studio("models/editor/playerstart.mdl")
-= info_player_deathmatch: ""
+// TODO: Is this even used in Chaos?
+@PointClass base(BaseEntityPoint, PlayerClass) 
+	autovis(Point Entities, Globals, Player Spawn, Deathmatch Spawn)
+	studio("models/editor/playerstart.mdl") = info_player_deathmatch: "Generic multiplayer spawn point, used in games which don't have their own."
 	[
 	]

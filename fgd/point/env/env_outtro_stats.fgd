@@ -1,5 +1,5 @@
-@PointClass base(BaseEntityPoint) 
-	size(-8 -8 -8, 8 8 8)
+@PointClass base(BaseEntityPoint)
+	iconsprite(editor/env_outtro_stats)
 = env_outtro_stats: "An entity to control the outtro stats at the end of a campaign."
 	[
 

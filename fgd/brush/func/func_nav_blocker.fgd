@@ -3,8 +3,4 @@
 = func_nav_blocker: "A brush entity that can block nav areas touching its AABB."
 	[
 	StartDisabled(boolean) : "Start Disabled" : 0
-
-	// Inputs
-	input BlockNav(string) : "Starts blocking nav areas."
-	input UnblockNav(void) : "Stops blocking nav areas."
 	]
