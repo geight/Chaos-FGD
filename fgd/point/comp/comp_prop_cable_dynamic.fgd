@@ -13,9 +13,6 @@
 
 	group(target_source): "Cable Group" : : "Specify the name of the group that will be compiled into this entity."
 
-	// Not inheriting from prop_dynamic_base, since most of the animation KVs are pointless.
-	glowbackfacemult[L4D2](float) : "Glow backface Multiplier" : "1.0" : "What to multiply glow by on backfaces."
-
 	// Inputs
 	input TurnOn(void) : "Make the cable set visible."
 	input TurnOff(void) : "Make the cable set invisible."

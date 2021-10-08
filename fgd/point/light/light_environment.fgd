@@ -33,13 +33,6 @@
 	]
 	pattern(string) : "Custom Appearance" : "" : "Set a custom pattern of light brightness for this light. Pattern format is a string of characters, where 'a' is total darkness, 'z' fully bright. i.e. 'aaggnnttzz' would be a steppy fade in from dark to light."
 
-	_castentityshadow[engine](boolean)
-	_castentityshadow[GMod](Choices) : "Cast entity shadows" : 0 : "Objects illuminated by this light will cast a directional shadow." =
-		[
-		0 : "Don't affect entity shadow angles"
-		1 : "Affect entity shadow angles"
-		]
-
 	// Inputs
 	input TurnOn(void) : "Turn the Sun on."
 	input TurnOff(void) : "The the Sun off."

@@ -1,5 +1,5 @@
 @PointClass base(BaseEntityPoint) 
-	appliesto(+engine, +TF2)
+	appliesto(+engine, +TF2_ENTITIES)
 = _ballplayertoucher: "Proxy entity used to make the passtime_ball collide with players."
 	[
 	]

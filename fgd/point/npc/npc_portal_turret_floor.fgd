@@ -58,8 +58,7 @@
 		]
 
 	skin(integer) : "[H] Skin" : 0 : "The skin to show, mainly for the normal model."
-
-	turretrange[P1, !engine](integer) readonly : "<Maximum Range>" : 1500 : "How far the turret will be able to see targets. Always 1500 in Portal 1, but this keyvalue is needed to display the preview."
+	
 	_frustum_color[!engine](string) readonly : "<Frustum Color>" : "255 0 0" : "Ignore, needed to color the range preview."
 
 	// Inputs
@@ -78,7 +77,6 @@
 	input SetAsBouncePainted(void) : "Force this turret to be painted with bounce paint."
 	input EnableMotion(void) : "Enable physics motion."
 	input DisableMotion(void) : "Disable physics motion."
-	input SetModel[engine](string) : "Was string in P1, now int in P2."
 	input SetModel(integer) : "Change the model, where the parameter is an integer from 0-4. Requires the Load Defective Models keyvalue to be true!"
 
 	// Outputs
