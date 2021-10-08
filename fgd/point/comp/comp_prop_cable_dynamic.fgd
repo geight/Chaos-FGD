@@ -1,4 +1,4 @@
-@PointClass base(BaseEntityAnimating, BreakableProp, Glow)
+@PointClass base(BaseEntityAnimating, BreakableProp)
 	sphere(fademindist)
 	sphere(fademaxdist)
 	studio("models/editor/comp_prop_cable_dynamic.mdl")
